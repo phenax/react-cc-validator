@@ -19,4 +19,9 @@ export default {
     textAlign: 'center',
   },
   cardType: {},
+  heading: {
+    color: '#555',
+    margin: '0',
+    padding: '1em 0 .5em',
+  },
 };
