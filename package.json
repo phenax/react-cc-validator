@@ -1,21 +1,23 @@
 {
-  "name": "card-validator",
+  "name": "card-number-validator",
   "version": "0.0.0",
   "description": "Credit/Debit card number validation library with input formatting",
-  "main": "index.js",
+  "main": "build/CardNumberValidator.js",
   "repository": "__",
   "author": "Akshay Nair<akshay.n@peopleinteractive.in>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "babel ./src/index.js -o ./build/CardValidator.js",
-    "start": "serve"
+    "start": "serve",
+    "build": "babel src -d build --copy-files",
+    "build:example": "webpack"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-plugin-react": "^7.7.0",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "webpack-cli": "^2.0.15"
   },
   "dependencies": {
     "@phenax/cc-number-formatter": "^0.0.1-test.6",
@@ -34,6 +36,7 @@
     "jest": "^22.4.3",
     "prop-types": "^15.6.1",
     "regenerator-runtime": "^0.11.1",
+    "serve": "^6.5.6",
     "webpack": "^4.6.0"
   }
 }
