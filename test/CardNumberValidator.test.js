@@ -3,7 +3,7 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import CardNumberValidator from '../src';
+import CardNumberValidator from '../src/CardNumberValidator';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -136,7 +136,7 @@ describe('<CardNumberValidator />', () => {
     expect(node.find('.test-input').length).toBe(1);
   });
 
-  it('should pass the correct props to the passed component', () => {
+  it('should pass the correct props to the passed component in its initial state', () => {
     const InputComponent = jest.fn();
     InputComponent.mockReturnValue(<div />);
 
@@ -144,7 +144,7 @@ describe('<CardNumberValidator />', () => {
 
     const propsPassed = InputComponent.mock.calls[0][0];
 
-    expect(propsPassed.isValid).toBe(true);
+    expect(propsPassed.isValid).toBe(false);
     expect(propsPassed.cardType).toBe('');
     expect(propsPassed.value).toBe('');
     expect(propsPassed.onChange).toBeInstanceOf(Function);
