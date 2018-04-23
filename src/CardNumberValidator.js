@@ -19,7 +19,7 @@ export default class CardNumberValidator extends React.PureComponent {
 
   // state :: ComponentState
   state = {
-    isValid: true,
+    isValid: false,
     cardNumber: '',
     cardType: '',
   };

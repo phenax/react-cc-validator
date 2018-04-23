@@ -2,22 +2,30 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import CardNumberValidator from '../../build/CardValidator';
+import CardNumberValidator from '../../src/CardNumberValidator';
+
+import styles from './styles';
 
 const App = () => (
-  <div>
-    <div>Yo</div>
-    <div>
-      <CardNumberValidator
-        render={({ isValid, getInputProps }) => (
-          <div>
-            <input type='text' {...getInputProps()} />
-            {isValid? 'valid': 'invalid'}
+  <CardNumberValidator
+    render={({ isValid, cardType, getInputProps }) => (
+      <div style={styles.wrapper}>
+        <input
+          type="text"
+          {...getInputProps()}
+          style={styles.input}
+        />
+        <div style={styles.cardType}>
+          {(isValid && cardType) || ''}
+        </div>
+        {isValid || (
+          <div style={styles.errorMessage}>
+            Card number is invalid
           </div>
         )}
-      />
-    </div>
-  </div>
+      </div>
+    )}
+  />
 );
 
 render(<App />, document.getElementById('root'));
