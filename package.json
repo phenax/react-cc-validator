@@ -1,0 +1,22 @@
+{
+  "name": "card-validator",
+  "version": "0.0.0",
+  "description": "Credit/Debit card number validation library with input formatting",
+  "main": "index.js",
+  "repository": "__",
+  "author": "Akshay Nair<akshay.n@peopleinteractive.in>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-react": "^7.7.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.4.3",
+    "webpack": "^4.6.0"
+  }
+}
