@@ -7,7 +7,10 @@ import CardNumberValidator from '../../src/CardNumberValidator';
 import styles from './styles';
 
 const validCardTypes = [
-  
+  'visa',
+  'maestro',
+  'master-card',
+  'unionpay',
 ];
 
 const App = () => (
@@ -26,7 +29,7 @@ const App = () => (
             style={styles.input}
           />
           <div style={styles.cardType}>
-            {(isValid && cardType) || ''}
+            {isValid? cardType: ''}
           </div>
           {isValid || (
             <div style={styles.errorMessage}>
