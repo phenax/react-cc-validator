@@ -46,11 +46,22 @@ describe('<CardNumberValidator />', () => {
     expect(propsPassed.getInputProps().onChange).toBe(propsPassed.onChange);
   });
 
-  describe('validation', () => {
+  describe('placeholder', () => {
 
     beforeEach(() => {
       node = mountValidatorInput();
       inputNode = node.find('input');
+    });
+
+    it('should format the card number correctly', () => {
+      cardNumberCases.forEach(
+        ({ cardNum, formattedCardNum }) => {
+          inputNode.getDOMNode().value = cardNum;
+          inputNode.simulate('change');
+
+          expect(node.find('.card-number').text()).toBe(formattedCardNum);
+        }
+      );
     });
 
     it('should validate the card number correctly', () => {
@@ -170,6 +181,50 @@ describe('<CardNumberValidator />', () => {
 
         expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
       });
+    });
+  });
+
+
+  describe('with formatting disabled', () => {
+
+    beforeEach(() => {
+      node = mountValidatorInput({ format: false });
+      inputNode = node.find('input');
+    });
+
+    it('should not format the card number', () => {
+      cardNumberCases.forEach(
+        ({ cardNum }) => {
+          inputNode.getDOMNode().value = cardNum;
+          inputNode.simulate('change');
+
+          expect(node.find('.card-number').text()).toBe(cardNum);
+        }
+      );
+    });
+
+    it('should handle display all characters as it is', () => {
+      inputNode.getDOMNode().value = 'aksfhjsfhjsdf';
+      inputNode.simulate('change');
+
+      expect(node.find('.card-number').text()).toBe('aksfhjsfhjsdf');
+
+      inputNode.getDOMNode().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
+      inputNode.simulate('change');
+
+      expect(node.find('.card-number').text()).toBe(';jdjshnjs@$#%^%dg]\\]l;l;');
+    });
+
+    it('should handle empty cases', () => {
+      inputNode.getDOMNode().value = '';
+      inputNode.simulate('change');
+
+      expect(node.find('.card-number').text()).toBe('');
+
+      inputNode.getDOMNode().value = null;
+      inputNode.simulate('change');
+
+      expect(node.find('.card-number').text()).toBe('');
     });
   });
 });
