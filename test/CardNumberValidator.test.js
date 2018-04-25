@@ -131,6 +131,12 @@ describe('<CardNumberValidator />', () => {
         '6759632829754159',
         '6761932556762300',
       ],
+      invalid: [
+        '4122423423423',
+        '35424253234252352354',
+        '11111111111111111',
+        '4111111111111114',
+      ],
     };
 
     beforeEach(() => {
@@ -150,6 +156,15 @@ describe('<CardNumberValidator />', () => {
 
     it('should show valid card numbers with types not from the validCardType array as invalid', () => {
       cardNumbers.withInvalidTypes.forEach(cardNum => {
+        inputNode.getDOMNode().value = cardNum;
+        inputNode.simulate('change');
+
+        expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
+      });
+    });
+
+    it('should show invalid card numbers with types as invalid', () => {
+      cardNumbers.invalid.forEach(cardNum => {
         inputNode.getDOMNode().value = cardNum;
         inputNode.simulate('change');
 

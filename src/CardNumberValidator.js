@@ -32,13 +32,13 @@ export default class CardNumberValidator extends React.PureComponent {
   // validateCardNumber :: ValidationResult ~> ValidationResult
   validateCardType = validationResult => {
 
-    const { isValid, card: { type } } = validationResult;
+    const { isValid, card = {} } = validationResult;
     const { validCardTypes } = this.props;
 
     validationResult.isCardNumberValid = validationResult.isValid;
 
     return Maybe(isValid && !!validCardTypes.length)
-      .map(() => validCardTypes.indexOf(type) !== -1)
+      .map(() => validCardTypes.indexOf(card.type) !== -1)
       .cata({
         Just: isValid => ({ ...validationResult, isValid }),
         Nothing: () => validationResult,
@@ -49,18 +49,12 @@ export default class CardNumberValidator extends React.PureComponent {
   validateCardNumber = cardValidator.number;
 
   // validationResultToState :: CardNumber ~> ValidationResult -> ComponentState
-  validationToState = cardNumber => ({ isValid, card }) => ({
-    cardType: card ? card.type : '',
-    cardNumber,
-    isValid,
-  });
+  validationToState = cardNumber => ({ isValid, card }) =>
+    ({ cardType: card ? card.type : '', cardNumber, isValid });
 
   // getEmptyState :: () ~> ComponentState
-  getEmptyState = () => ({
-    cardNumber: '',
-    cardType: '',
-    isValid: false,
-  });
+  getEmptyState = () =>
+    ({ cardNumber: '', cardType: '', isValid: false });
 
   // getValidationState :: CardNumber ~> ComponentState
   getValidationState = cardNumber =>
