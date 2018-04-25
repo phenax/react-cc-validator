@@ -9,7 +9,7 @@ import { Maybe, log, setState , identity} from './utils';
 // type CardNumber :: String
 // type CardType :: String
 // type Card = { type :: CardType, niceType :: String, ... }
-// type ValidationResult = { isValid :: Boolean, card :: Card, ... }
+// type ValidationResult = { isValid :: Boolean, isCardNumberValid :: Boolean, card :: Card, ... }
 // type ComponentState = { isValid :: Boolean, cardNumber :: CardNumber, cardType :: CardType }
 
 export default class CardNumberValidator extends React.PureComponent {
@@ -34,6 +34,8 @@ export default class CardNumberValidator extends React.PureComponent {
 
     const { isValid, card: { type } } = validationResult;
     const { validCardTypes } = this.props;
+
+    validationResult.isCardNumberValid = validationResult.isValid;
 
     return Maybe(isValid && !!validCardTypes.length)
       .map(() => validCardTypes.indexOf(type) !== -1)
