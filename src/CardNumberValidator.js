@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import cardValidator from 'card-validator';
 import { formatCardNumber } from '@phenax/cc-number-formatter';
 
-import { Maybe, log, setState } from './utils';
+import { Maybe, log, setState , identity} from './utils';
 
 // type CardNumber :: String
 // type CardType :: String
@@ -14,7 +14,12 @@ import { Maybe, log, setState } from './utils';
 
 export default class CardNumberValidator extends React.PureComponent {
   static propTypes = {
-    render: PropTypes.func.isRequired,
+    children: PropTypes.func.isRequired,
+    validCardTypes: PropTypes.arrayOf(PropTypes.string),
+  };
+
+  static defaultProps = {
+    validCardTypes: [],
   };
 
   // state :: ComponentState
@@ -22,6 +27,20 @@ export default class CardNumberValidator extends React.PureComponent {
     isValid: false,
     cardNumber: '',
     cardType: '',
+  };
+
+  // validateCardNumber :: ValidationResult ~> ValidationResult
+  validateCardType = validationResult => {
+
+    const { isValid, card: { type } } = validationResult;
+    const { validCardTypes } = this.props;
+
+    return Maybe(isValid && !!validCardTypes.length)
+      .map(() => validCardTypes.indexOf(type) !== -1)
+      .cata({
+        Just: isValid => ({ ...validationResult, isValid }),
+        Nothing: () => validationResult,
+      });
   };
 
   // validateCardNumber :: CardNumber ~> ValidationResult
@@ -45,6 +64,7 @@ export default class CardNumberValidator extends React.PureComponent {
   getValidationState = cardNumber =>
     Maybe(cardNumber)
       .map(this.validateCardNumber)
+      .map(this.validateCardType)
       // .map(log('ValidationResult'))
       .cata({
         Just: this.validationToState(cardNumber),
@@ -76,7 +96,7 @@ export default class CardNumberValidator extends React.PureComponent {
       ...this.getInputProps(),
     };
 
-    return <this.props.render {...inputProps} />;
+    return <this.props.children {...inputProps} />;
   }
 }
 

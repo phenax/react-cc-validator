@@ -3,121 +3,15 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+import { cardNumberCases, mountValidatorInput, CARD_IS_VALID, CARD_IS_INVALID } from './helpers';
+
 import CardNumberValidator from '../src/CardNumberValidator';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const CARD_IS_VALID = 'CARD_IS_VALID';
-const CARD_IS_INVALID = 'CARD_IS_INVALID';
-
-const cardNumberCases = [
-  {
-    cardNum: '4111111111111111',
-    cardType: 'visa',
-    isValid: true,
-  },
-  {
-    cardNum: '4393398158868260',
-    cardType: 'visa',
-    isValid: true,
-  },
-  {
-    cardNum: '4393398158868260',
-    cardType: 'visa',
-    isValid: true,
-  },
-  {
-    cardNum: '4024007101880',
-    cardType: 'visa',
-    isValid: false,
-  },
-  {
-    cardNum: '4024007101880259',
-    cardType: 'visa',
-    isValid: true,
-  },
-  {
-    cardNum: '40240071018809012',
-    cardType: 'visa',
-    isValid: false,
-  },
-
-  {
-    cardNum: '5414101008948858',
-    cardType: 'master-card',
-    isValid: true,
-  },
-  {
-    cardNum: '5479585630696996',
-    cardType: 'master-card',
-    isValid: true,
-  },
-  {
-    cardNum: '5114115214262121',
-    cardType: 'master-card',
-    isValid: true,
-  },
-  {
-    cardNum: '5114115274262121',
-    cardType: 'master-card',
-    isValid: false,
-  },
-  {
-    cardNum: '5148346584434657',
-    cardType: 'master-card',
-    isValid: true,
-  },
-  {
-    cardNum: '5229489625938443',
-    cardType: 'master-card',
-    isValid: true,
-  },
-
-  {
-    cardNum: '6759632829754159',
-    cardType: 'maestro',
-    isValid: true,
-  },
-  {
-    cardNum: '6761932556762300',
-    cardType: 'maestro',
-    isValid: true,
-  },
-  {
-    cardNum: '5020023206271691',
-    cardType: 'maestro',
-    isValid: true,
-  },
-  {
-    cardNum: '5610591081018250',
-    cardType: 'maestro',
-    isValid: true,
-  },
-  {
-    cardNum: '6771771771771771774',
-    cardType: 'maestro',
-    isValid: true,
-  },
-
-  {
-    cardNum: '6220420252000044153',
-    cardType: 'unionpay',
-    isValid: true,
-  },
-  {
-    cardNum: '3557994704466882',
-    cardType: 'jcb',
-    isValid: true,
-  },
-  {
-    cardNum: '30569309025904',
-    cardType: 'diners-club',
-    isValid: true,
-  },
-];
-
 describe('<CardNumberValidator />', () => {
   let node = null;
+  let inputNode = null;
 
   afterEach(() => {
     if (node) {
@@ -129,9 +23,9 @@ describe('<CardNumberValidator />', () => {
     const InputComponent = jest.fn();
     InputComponent.mockReturnValue(<div className="test-input" />);
 
-    node = mount(<CardNumberValidator render={InputComponent} />);
+    node = mount(<CardNumberValidator>{InputComponent}</CardNumberValidator>);
 
-    expect(node.props().render).toBe(InputComponent);
+    expect(node.props().children).toBe(InputComponent);
     expect(InputComponent).toHaveBeenCalled();
     expect(node.find('.test-input').length).toBe(1);
   });
@@ -140,7 +34,7 @@ describe('<CardNumberValidator />', () => {
     const InputComponent = jest.fn();
     InputComponent.mockReturnValue(<div />);
 
-    node = mount(<CardNumberValidator render={InputComponent} />);
+    node = mount(<CardNumberValidator>{InputComponent}</CardNumberValidator>);
 
     const propsPassed = InputComponent.mock.calls[0][0];
 
@@ -153,37 +47,17 @@ describe('<CardNumberValidator />', () => {
   });
 
   describe('validation', () => {
-    let inputRef = null;
 
     beforeEach(() => {
-      const InputComponent = ({
-        getInputProps,
-        value,
-        isValid,
-        cardType,
-      }) => (
-        <div>
-          <input
-            type="text"
-            ref={x => (inputRef = x)}
-            {...getInputProps()}
-          />
-          <div className="card-number">{value}</div>
-          <div className="card-type">{cardType}</div>
-          <div className="card-isvalid">
-            {isValid ? CARD_IS_VALID : CARD_IS_INVALID}
-          </div>
-        </div>
-      );
-
-      node = mount(<CardNumberValidator render={InputComponent} />);
+      node = mountValidatorInput();
+      inputNode = node.find('input');
     });
 
     it('should validate the card number correctly', () => {
       cardNumberCases.forEach(
         ({ cardNum, isValid }) => {
-          inputRef.value = cardNum;
-          node.find('input').simulate('change');
+          inputNode.getDOMNode().value = cardNum;
+          inputNode.simulate('change');
 
           expect(node.find('.card-isvalid').text()).toBe(
             isValid ? CARD_IS_VALID : CARD_IS_INVALID
@@ -195,8 +69,8 @@ describe('<CardNumberValidator />', () => {
     it('should detect the correct card type', () => {
       cardNumberCases.forEach(
         ({ cardNum, cardType }) => {
-          inputRef.value = cardNum;
-          node.find('input').simulate('change');
+          inputNode.getDOMNode().value = cardNum;
+          inputNode.simulate('change');
 
           expect(node.find('.card-type').text()).toBe(cardType);
         }
@@ -204,15 +78,15 @@ describe('<CardNumberValidator />', () => {
     });
 
     it('should handle non-digit cases', () => {
-      inputRef.value = 'aksfhjsfhjsdf';
-      node.find('input').simulate('change');
+      inputNode.getDOMNode().value = 'aksfhjsfhjsdf';
+      inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
       expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
 
-      inputRef.value = ';jdjshnjs@$#%^%dg]\\]l;l;';
-      node.find('input').simulate('change');
+      inputNode.getDOMNode().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
+      inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
@@ -220,19 +94,67 @@ describe('<CardNumberValidator />', () => {
     });
 
     it('should handle empty cases', () => {
-      inputRef.value = '';
-      node.find('input').simulate('change');
+      inputNode.getDOMNode().value = '';
+      inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
       expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
 
-      inputRef.value = null;
-      node.find('input').simulate('change');
+      inputNode.getDOMNode().value = null;
+      inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
       expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
+    });
+  });
+
+
+  describe('with validCardTypes prop passed', () => {
+
+    const validCardTypes = [
+      'master-card',
+      'visa',
+    ];
+
+    const cardNumbers = {
+      withValidTypes: [
+        '4111111111111111',
+        '5414101008948858',
+        '5479585630696996',
+      ],
+      withInvalidTypes: [
+        '6220420252000044153',
+        '3557994704466882',
+        '30569309025904',
+        '6759632829754159',
+        '6761932556762300',
+      ],
+    };
+
+    beforeEach(() => {
+      node = mountValidatorInput({ validCardTypes });
+      inputNode = node.find('input');
+    });
+
+
+    it('should show valid card numbers with valid types as valid', () => {
+      cardNumbers.withValidTypes.forEach(cardNum => {
+        inputNode.getDOMNode().value = cardNum;
+        inputNode.simulate('change');
+
+        expect(node.find('.card-isvalid').text()).toBe(CARD_IS_VALID);
+      });
+    });
+
+    it('should show valid card numbers with types not from the validCardType array as invalid', () => {
+      cardNumbers.withInvalidTypes.forEach(cardNum => {
+        inputNode.getDOMNode().value = cardNum;
+        inputNode.simulate('change');
+
+        expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
+      });
     });
   });
 });

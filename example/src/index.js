@@ -6,6 +6,10 @@ import CardNumberValidator from '../../src/CardNumberValidator';
 
 import styles from './styles';
 
+const validCardTypes = [
+  
+];
+
 const App = () => (
   <div style={styles.wrapper}>
     <h2 style={styles.heading}>
@@ -13,7 +17,8 @@ const App = () => (
     </h2>
 
     <CardNumberValidator
-      render={({ isValid, cardType, getInputProps }) => (
+      validCardTypes={validCardTypes}>
+      {({ isValid, cardType, getInputProps }) => (
         <div>
           <input
             type="text"
@@ -30,7 +35,7 @@ const App = () => (
           )}
         </div>
       )}
-    />
+    </CardNumberValidator>
   </div>
 );
 
