@@ -31,13 +31,13 @@ export const InputProps = {
 
 export const PassedProps = {
   ...InputProps,
-  isValid: this.state.isValid,
-  cardType: this.state.cardType,
+  isValid: Boolean,
+  cardType: String,
   getInputProps: () => InputProps,
 };
 
 export const PropTypes = {
   children: PassedProps => ReactNode,
-  validCardTypes: [ String ],
+  validCardTypes: Array[String],
   format: Boolean,
 };

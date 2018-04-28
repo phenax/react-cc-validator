@@ -37,7 +37,7 @@ const YourComponent = () => (
 ```js
 // The props that can be passed to CardNumberValidator compopent
 type PropTypes = {
-  children: Function,
+  children: PassedProps => ReactNode,
   validCardTypes: Array<String>,
   format: Boolean,
 };

@@ -38,8 +38,8 @@ var InputProps = exports.InputProps = {
 };
 
 var PassedProps = exports.PassedProps = _extends({}, InputProps, {
-  isValid: undefined.state.isValid,
-  cardType: undefined.state.cardType,
+  isValid: Boolean,
+  cardType: String,
   getInputProps: function getInputProps() {
     return InputProps;
   }
@@ -49,6 +49,6 @@ var PropTypes = exports.PropTypes = {
   children: function children(PassedProps) {
     return ReactNode;
   },
-  validCardTypes: [String],
+  validCardTypes: Array[String],
   format: Boolean
 };
