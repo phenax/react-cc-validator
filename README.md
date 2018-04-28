@@ -6,7 +6,6 @@ Credit/Debit card number validator input written in react.
 
 [![Travis](https://img.shields.io/travis/phenax/react-cc-validator.svg?style=for-the-badge)](https://travis-ci.org/phenax/react-cc-validator)
 [![Codecov](https://img.shields.io/codecov/c/github/phenax/react-cc-validator.svg?style=for-the-badge)](https://codecov.io/gh/phenax/react-cc-validator)
-[![forthebadge](https://forthebadge.com/images/badges/built-with-science.svg)](https://forthebadge.com)
 <!-- [![npm](https://img.shields.io/npm/v/@phenax/react-cc-validator.svg?style=for-the-badge)] -->
 
 
