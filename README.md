@@ -15,7 +15,7 @@ import CardNumberValidator from '@phenax/react-cc-validator';
 ### API
 
 #### Usage
-You can refer to /example
+You can refer to [/example](https://github.com/phenax/react-cc-validator/tree/master/example/src)
 
 ```js
 const YourComponent = () => (
