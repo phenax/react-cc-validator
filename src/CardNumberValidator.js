@@ -1,20 +1,37 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import cardValidator from 'card-validator';
 import { formatCardNumber } from '@phenax/cc-number-formatter';
 
-import { Maybe, log, setState } from './utils';
+import { Maybe, validateCardNumber, validateCardType, cond, identity } from './utils';
+import { setState, getEmptyState, validationToState } from './state-utils';
 
-// type CardNumber :: String
+/*
+// Types
 
-// type CardType :: String
+type CardNumber :: String
 
-// type Card = { type :: CardType, niceType :: String, ... }
+type CardType :: String
 
-// type ValidationResult = { isValid :: Boolean, isCardNumberValid :: Boolean, card :: Card, ... }
+type Card = {
+  type :: CardType,
+  niceType :: String,
+  ...
+}
 
-// type ComponentState = { isValid :: Boolean, cardNumber :: CardNumber, cardType :: CardType }
+type ValidationResult = {
+  isValid :: Boolean,
+  isCardNumberValid :: Boolean,
+  card :: Card,
+  ...
+}
+
+type ComponentState = {
+  isValid :: Boolean,
+  cardNumber :: CardNumber,
+  cardType :: CardType
+}
+*/
 
 
 export default class CardNumberValidator extends React.PureComponent {
@@ -31,51 +48,20 @@ export default class CardNumberValidator extends React.PureComponent {
   };
 
   // state :: ComponentState
-  state = {
-    isValid: false,
-    cardNumber: '',
-    cardType: '',
-  };
+  state = getEmptyState();
 
   // formatCardNumber :: String ~> String
-  formatCardNumber = cardNum =>
-    this.props.format? formatCardNumber(cardNum): cardNum;
-
-  // validateCardNumber :: CardNumber ~> ValidationResult
-  validateCardNumber = cardValidator.number;
-
-  // validateCardNumber :: ValidationResult ~> ValidationResult
-  validateCardType = result => {
-    result = { ...result, isCardNumberValid: result.isValid };
-
-    const { isValid, card = {} } = result;
-    const { validCardTypes } = this.props;
-
-    return Maybe(isValid && !!validCardTypes.length)
-      .map(() => validCardTypes.indexOf(card.type) !== -1)
-      .cata({
-        Just: isValid => ({ ...result, isValid }),
-        Nothing: () => result,
-      });
-  };
-
-  // validationResultToState :: CardNumber ~> ValidationResult -> ComponentState
-  validationToState = cardNumber => ({ isValid, card }) =>
-    ({ cardType: card ? card.type : '', cardNumber, isValid });
-
-  // getEmptyState :: () ~> ComponentState
-  getEmptyState = () =>
-    ({ cardNumber: '', cardType: '', isValid: false });
+  formatCardNumber =
+    cond(this.props.format, [ formatCardNumber, identity ]);
 
   // getValidationState :: CardNumber ~> ComponentState
   getValidationState = cardNumber =>
     Maybe(cardNumber)
-      .map(this.validateCardNumber)
-      .map(this.validateCardType)
-      // .map(log('ValidationResult'))
+      .map(validateCardNumber)
+      .map(validateCardType(this.props.validCardTypes))
       .cata({
-        Just: this.validationToState(cardNumber),
-        Nothing: this.getEmptyState,
+        Just: validationToState(cardNumber),
+        Nothing: getEmptyState,
       });
 
   // getInputProps :: () ~> Object
@@ -84,11 +70,10 @@ export default class CardNumberValidator extends React.PureComponent {
     value: this.state.cardNumber,
   });
 
-  // onInputChange :: Event ~> Array<ComponentState>
+  // onInputChange :: Event ~> Just<ComponentState>
   onInputChange = ({ target: { value: cardNumber } }) =>
     Maybe.Just(cardNumber)
       .map(this.formatCardNumber)
-      // .map(log('CardNumber'))
       .map(this.getValidationState)
       .map(setState(this));
 
@@ -100,7 +85,7 @@ export default class CardNumberValidator extends React.PureComponent {
       ...this.getInputProps(),
     };
 
-    return <this.props.children {...inputProps} />;
+    return this.props.children(inputProps);
   }
 }
 
