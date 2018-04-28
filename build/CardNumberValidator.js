@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -57,6 +55,12 @@ var CardNumberValidator = function (_React$PureComponent) {
     }, _this.onInputChange = function (_ref2) {
       var cardNumber = _ref2.target.value;
       return _utils.Maybe.Just(cardNumber).map(_this.formatCardNumber).map(_this.getValidationState).map((0, _stateUtils.setState)(_this));
+    }, _this.render = function () {
+      return _this.props.children(_extends({
+        isValid: _this.state.isValid,
+        cardType: _this.state.cardType,
+        getInputProps: _this.getInputProps
+      }, _this.getInputProps()));
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -69,24 +73,14 @@ var CardNumberValidator = function (_React$PureComponent) {
   // getValidationState :: CardNumber ~> ComponentState
 
 
-  // getInputProps :: () ~> Object
+  // getInputProps :: () ~> InputProps
 
 
   // onInputChange :: Event ~> Just<ComponentState>
 
 
-  _createClass(CardNumberValidator, [{
-    key: 'render',
-    value: function render() {
-      var inputProps = _extends({
-        isValid: this.state.isValid,
-        cardType: this.state.cardType,
-        getInputProps: this.getInputProps
-      }, this.getInputProps());
+  // render :: () ~> ReactNode
 
-      return this.props.children(inputProps);
-    }
-  }]);
 
   return CardNumberValidator;
 }(_react2.default.PureComponent);

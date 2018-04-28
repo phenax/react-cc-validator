@@ -25,7 +25,7 @@ export default class CardNumberValidator extends React.PureComponent {
         Nothing: getEmptyState,
       });
 
-  // getInputProps :: () ~> Object
+  // getInputProps :: () ~> InputProps
   getInputProps = () => ({
     onChange: this.onInputChange,
     value: this.state.cardNumber,
@@ -38,16 +38,14 @@ export default class CardNumberValidator extends React.PureComponent {
       .map(this.getValidationState)
       .map(setState(this));
 
-  render() {
-    const inputProps = {
+  // render :: () ~> ReactNode
+  render = () =>
+    this.props.children({
       isValid: this.state.isValid,
       cardType: this.state.cardType,
       getInputProps: this.getInputProps,
       ...this.getInputProps(),
-    };
-
-    return this.props.children(inputProps);
-  }
+    });
 }
 
 CardNumberValidator.propTypes = {
