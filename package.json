@@ -1,9 +1,9 @@
 {
-  "name": "card-number-validator",
+  "name": "@phenax/react-cc-validator",
   "version": "0.0.0",
   "description": "Credit/Debit card number validation library with input formatting",
   "main": "build/CardNumberValidator.js",
-  "repository": "__",
+  "repository": "https://github.com/phenax/react-cc-validator",
   "author": "Akshay Nair<akshay.n@peopleinteractive.in>",
   "license": "MIT",
   "scripts": {
@@ -17,10 +17,7 @@
     "eslint-plugin-react": "^7.7.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "webpack-cli": "^2.0.15"
-  },
-  "dependencies": {
-    "@shaaditech/cc-number-formatter": "^0.0.1",
+    "webpack-cli": "^2.0.15",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",
@@ -30,13 +27,15 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "card-validator": "^4.3.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^22.4.3",
-    "prop-types": "^15.6.1",
-    "regenerator-runtime": "^0.11.1",
     "serve": "^6.5.6",
     "webpack": "^4.6.0"
+  },
+  "dependencies": {
+    "@shaaditech/cc-number-formatter": "^0.0.1",
+    "card-validator": "^4.3.0",
+    "prop-types": "^15.6.1"
   }
 }
