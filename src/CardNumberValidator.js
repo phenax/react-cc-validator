@@ -6,46 +6,7 @@ import { formatCardNumber } from '@phenax/cc-number-formatter';
 import { Maybe, validateCardNumber, validateCardType, cond, identity } from './utils';
 import { setState, getEmptyState, validationToState } from './state-utils';
 
-/*
-// Types
-
-type CardNumber :: String
-
-type CardType :: String
-
-type Card = {
-  type :: CardType,
-  niceType :: String,
-  ...
-}
-
-type ValidationResult = {
-  isValid :: Boolean,
-  isCardNumberValid :: Boolean,
-  card :: Card,
-  ...
-}
-
-type ComponentState = {
-  isValid :: Boolean,
-  cardNumber :: CardNumber,
-  cardType :: CardType
-}
-*/
-
-
 export default class CardNumberValidator extends React.PureComponent {
-
-  static propTypes = {
-    children: PropTypes.func.isRequired,
-    validCardTypes: PropTypes.arrayOf(PropTypes.string),
-    format: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    validCardTypes: [],
-    format: true,
-  };
 
   // state :: ComponentState
   state = getEmptyState();
@@ -88,4 +49,15 @@ export default class CardNumberValidator extends React.PureComponent {
     return this.props.children(inputProps);
   }
 }
+
+CardNumberValidator.propTypes = {
+  children: PropTypes.func.isRequired,
+  validCardTypes: PropTypes.arrayOf(PropTypes.string),
+  format: PropTypes.bool,
+};
+
+CardNumberValidator.defaultProps = {
+  validCardTypes: [],
+  format: true,
+};
 
