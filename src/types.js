@@ -1,42 +1,42 @@
 /* eslint-disable */
 // NOTE: This file is not imported anywhere. Just to document types
 
-export const CardNumber = String;
+const CardNumber = String;
 
-export const CardType = String;
+const CardType = String;
 
-export const Card = {
+const Card = {
   type : CardType,
   niceType : String,
   // ...
 };
 
-export const ValidationResult = {
+const ValidationResult = {
   isValid : Boolean,
   isCardNumberValid : Boolean,
   card : Card,
   // ...
 };
 
-export const ComponentState = {
+const ComponentState = {
   isValid : Boolean,
   cardNumber : CardNumber,
   cardType : CardType,
 };
 
-export const InputProps = {
+const InputProps = {
   onChange: Function,
   value: String,
 };
 
-export const PassedProps = {
+const PassedProps = {
   ...InputProps,
   isValid: Boolean,
   cardType: String,
   getInputProps: () => InputProps,
 };
 
-export const PropTypes = {
+const PropTypes = {
   children: PassedProps => ReactNode,
   validCardTypes: Array[String],
   format: Boolean,

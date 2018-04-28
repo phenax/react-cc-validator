@@ -10,6 +10,7 @@
     "test": "jest",
     "test:ci": "jest --coverage && codecov",
     "start": "serve",
+    "prepublish": "yarn build && yarn build:example",
     "build": "babel src -d build --copy-files",
     "build:example": "webpack"
   },
