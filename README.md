@@ -2,6 +2,9 @@
 # react-cc-validator
 Credit/Debit card number validator input written in react.
 
+[![Build Status](https://travis-ci.org/phenax/react-cc-validator.svg?branch=master)](https://travis-ci.org/phenax/react-cc-validator)
+
+
 ### Install
 
 * Add package in project using
