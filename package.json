@@ -20,7 +20,7 @@
     "webpack-cli": "^2.0.15"
   },
   "dependencies": {
-    "@phenax/cc-number-formatter": "^0.0.1-test.6",
+    "@shaaditech/cc-number-formatter": "^0.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.3",

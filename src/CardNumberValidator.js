@@ -1,7 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatCardNumber } from '@phenax/cc-number-formatter';
+import { formatCardNumber } from '@shaaditech/cc-number-formatter';
 
 import { Maybe, validateCardNumber, validateCardType, cond, identity } from './utils';
 import { setState, getEmptyState, validationToState } from './state-utils';
