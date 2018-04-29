@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import cardValidator from 'card-validator';
 import { formatCardNumber } from '@shaaditech/cc-number-formatter';
 
 import { Maybe, validateCardNumber, validateCardType, cond, identity } from './utils';
@@ -59,3 +60,8 @@ CardNumberValidator.defaultProps = {
   format: true,
 };
 
+
+// Add a new card type
+// addCard :: Options -> ()
+export const addCard = options =>
+  cardValidator.creditCardType.addCard(options);
