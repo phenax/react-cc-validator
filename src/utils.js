@@ -10,22 +10,22 @@ export const Maybe = x => ({
 // Just :: A -> Just<A>
 Maybe.Just = x => ({
   map: f => Maybe.Just(f(x)),
-  fold: f => f(x),
+  // fold: f => f(x),
   cata: ({ Just: f }) => f(x),
 });
 
 // Nothing :: () -> Nothing
 Maybe.Nothing = x => ({
   map: () => Maybe.Nothing(x),
-  fold: () => Maybe.Nothing(x),
+  // fold: () => Maybe.Nothing(x),
   cata: ({ Nothing: f }) => f(x),
 });
 
 // log :: String -> A -> A
-export const log = prefix => x => {
-  console.log(prefix, x); // eslint-disable-line
-  return x;
-};
+// export const log = prefix => x => {
+//   console.log(prefix, x); // eslint-disable-line
+//   return x;
+// };
 
 // identity :: A -> A
 export const identity = x => x;

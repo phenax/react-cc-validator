@@ -60,8 +60,4 @@ CardNumberValidator.defaultProps = {
   format: true,
 };
 
-
-// Add a new card type
-// addCard :: Options -> ()
-export const addCard = options =>
-  cardValidator.creditCardType.addCard(options);
+export { cardValidator };

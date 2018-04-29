@@ -3,9 +3,11 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
+import cardValidator from 'card-validator';
+
 import { cardNumberCases, mountValidatorInput, CARD_IS_VALID, CARD_IS_INVALID } from './helpers';
 
-import CardNumberValidator from '../src/CardNumberValidator';
+import CardNumberValidator, { addCard, removeCard } from '../src/CardNumberValidator';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -56,7 +58,7 @@ describe('<CardNumberValidator />', () => {
     it('should format the card number correctly', () => {
       cardNumberCases.forEach(
         ({ cardNum, formattedCardNum }) => {
-          inputNode.getDOMNode().value = cardNum;
+          inputNode.instance().value = cardNum;
           inputNode.simulate('change');
 
           expect(node.find('.card-number').text()).toBe(formattedCardNum);
@@ -67,7 +69,7 @@ describe('<CardNumberValidator />', () => {
     it('should validate the card number correctly', () => {
       cardNumberCases.forEach(
         ({ cardNum, isValid }) => {
-          inputNode.getDOMNode().value = cardNum;
+          inputNode.instance().value = cardNum;
           inputNode.simulate('change');
 
           expect(node.find('.card-isvalid').text()).toBe(
@@ -80,7 +82,7 @@ describe('<CardNumberValidator />', () => {
     it('should detect the correct card type', () => {
       cardNumberCases.forEach(
         ({ cardNum, cardType }) => {
-          inputNode.getDOMNode().value = cardNum;
+          inputNode.instance().value = cardNum;
           inputNode.simulate('change');
 
           expect(node.find('.card-type').text()).toBe(cardType);
@@ -89,14 +91,14 @@ describe('<CardNumberValidator />', () => {
     });
 
     it('should handle non-digit cases', () => {
-      inputNode.getDOMNode().value = 'aksfhjsfhjsdf';
+      inputNode.instance().value = 'aksfhjsfhjsdf';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
       expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
 
-      inputNode.getDOMNode().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
+      inputNode.instance().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
@@ -105,14 +107,14 @@ describe('<CardNumberValidator />', () => {
     });
 
     it('should handle empty cases', () => {
-      inputNode.getDOMNode().value = '';
+      inputNode.instance().value = '';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
       expect(node.find('.card-type').text()).toBe('');
       expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
 
-      inputNode.getDOMNode().value = null;
+      inputNode.instance().value = null;
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
@@ -158,7 +160,7 @@ describe('<CardNumberValidator />', () => {
 
     it('should show valid card numbers with valid types as valid', () => {
       cardNumbers.withValidTypes.forEach(cardNum => {
-        inputNode.getDOMNode().value = cardNum;
+        inputNode.instance().value = cardNum;
         inputNode.simulate('change');
 
         expect(node.find('.card-isvalid').text()).toBe(CARD_IS_VALID);
@@ -167,7 +169,7 @@ describe('<CardNumberValidator />', () => {
 
     it('should show valid card numbers with types not from the validCardType array as invalid', () => {
       cardNumbers.withInvalidTypes.forEach(cardNum => {
-        inputNode.getDOMNode().value = cardNum;
+        inputNode.instance().value = cardNum;
         inputNode.simulate('change');
 
         expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
@@ -176,7 +178,7 @@ describe('<CardNumberValidator />', () => {
 
     it('should show invalid card numbers with types as invalid', () => {
       cardNumbers.invalid.forEach(cardNum => {
-        inputNode.getDOMNode().value = cardNum;
+        inputNode.instance().value = cardNum;
         inputNode.simulate('change');
 
         expect(node.find('.card-isvalid').text()).toBe(CARD_IS_INVALID);
@@ -195,7 +197,7 @@ describe('<CardNumberValidator />', () => {
     it('should not format the card number', () => {
       cardNumberCases.forEach(
         ({ cardNum }) => {
-          inputNode.getDOMNode().value = cardNum;
+          inputNode.instance().value = cardNum;
           inputNode.simulate('change');
 
           expect(node.find('.card-number').text()).toBe(cardNum);
@@ -204,24 +206,24 @@ describe('<CardNumberValidator />', () => {
     });
 
     it('should handle display all characters as it is', () => {
-      inputNode.getDOMNode().value = 'aksfhjsfhjsdf';
+      inputNode.instance().value = 'aksfhjsfhjsdf';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('aksfhjsfhjsdf');
 
-      inputNode.getDOMNode().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
+      inputNode.instance().value = ';jdjshnjs@$#%^%dg]\\]l;l;';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe(';jdjshnjs@$#%^%dg]\\]l;l;');
     });
 
     it('should handle empty cases', () => {
-      inputNode.getDOMNode().value = '';
+      inputNode.instance().value = '';
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
 
-      inputNode.getDOMNode().value = null;
+      inputNode.instance().value = null;
       inputNode.simulate('change');
 
       expect(node.find('.card-number').text()).toBe('');
