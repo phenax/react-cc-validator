@@ -1,6 +1,6 @@
 
 // validationResultToState :: CardNumber -> ValidationResult -> ComponentState
-export const validationToState = cardNumber => ({ isValid, card }) => ({
+export const validationToState = cardNumber => ({ isValid, card = {} }) => ({
   cardType: card && card.type || '',
   cardNumber,
   isValid,
