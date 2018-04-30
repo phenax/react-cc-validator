@@ -8,7 +8,7 @@ Credit/Debit card number validator input written in react.
 
 [![Travis](https://img.shields.io/travis/phenax/react-cc-validator.svg?style=for-the-badge)](https://travis-ci.org/phenax/react-cc-validator)
 [![Codecov](https://img.shields.io/codecov/c/github/phenax/react-cc-validator.svg?style=for-the-badge)](https://codecov.io/gh/phenax/react-cc-validator)
-[![npm](https://img.shields.io/npm/v/@phenax/react-cc-validator.svg?style=for-the-badge)](http://npmjs.com/package/@phenax/react-cc-validator)
+[![npm](https://img.shields.io/npm/v/@shaaditech/react-cc-validator.svg?style=for-the-badge)](http://npmjs.com/package/@shaaditech/react-cc-validator)
 
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/phenax/react-cc-validator.svg)](https://greenkeeper.io/)
@@ -18,11 +18,11 @@ Credit/Debit card number validator input written in react.
 ### Install
 
 * Add package in project using
-`yarn add @phenax/react-cc-validator`
+`yarn add @shaaditech/react-cc-validator`
 
 * Import
 ```js
-import CardNumberValidator from '@phenax/react-cc-validator';
+import CardNumberValidator from '@shaaditech/react-cc-validator';
 ```
 
 ### API
