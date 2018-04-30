@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import cardValidator from 'card-validator';
 import { formatCardNumber } from '@shaaditech/cc-number-formatter';
 
-import { Maybe, validateCardNumber, validateCardType, cond, identity } from './utils';
+import { validateCardNumber, validateCardType, ifElse, compose, identity, log } from './utils';
 import { setState, getEmptyState, validationToState } from './state-utils';
 
 export default class CardNumberValidator extends React.PureComponent {
@@ -14,17 +14,18 @@ export default class CardNumberValidator extends React.PureComponent {
 
   // formatCardNumber :: String ~> String
   formatCardNumber =
-    cond(this.props.format, [ formatCardNumber, identity ]);
+    ifElse(this.props.format, [ formatCardNumber, identity ]);
 
   // getValidationState :: CardNumber ~> ComponentState
   getValidationState = cardNumber =>
-    Maybe(cardNumber)
-      .map(validateCardNumber)
-      .map(validateCardType(this.props.validCardTypes))
-      .cata({
-        Just: validationToState(cardNumber),
-        Nothing: getEmptyState,
-      });
+    ifElse(!!cardNumber, [
+      compose(
+        validationToState(cardNumber),
+        validateCardType(this.props.validCardTypes),
+        validateCardNumber,
+      ),
+      getEmptyState,
+    ])(cardNumber);
 
   // getInputProps :: () ~> InputProps
   getInputProps = () => ({
@@ -34,10 +35,11 @@ export default class CardNumberValidator extends React.PureComponent {
 
   // onInputChange :: Event ~> Just<ComponentState>
   onInputChange = ({ target: { value: cardNumber } }) =>
-    Maybe.Just(cardNumber)
-      .map(this.formatCardNumber)
-      .map(this.getValidationState)
-      .map(setState(this));
+    compose(
+      setState(this),
+      this.getValidationState,
+      this.formatCardNumber,
+    )(cardNumber);
 
   // render :: () ~> ReactNode
   render = () =>

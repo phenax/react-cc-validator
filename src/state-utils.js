@@ -1,9 +1,7 @@
 
-import { propOr } from './utils';
-
 // validationResultToState :: CardNumber -> ValidationResult -> ComponentState
 export const validationToState = cardNumber => ({ isValid, card }) => ({
-  cardType: propOr('type', '')(card),
+  cardType: card && card.type || '',
   cardNumber,
   isValid,
 });
