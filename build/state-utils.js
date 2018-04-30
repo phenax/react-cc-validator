@@ -1,4 +1,0 @@
-'use strict';Object.defineProperty(exports,'__esModule',{value:true});// validationResultToState :: CardNumber -> ValidationResult -> ComponentState
-var validationToState=exports.validationToState=function validationToState(cardNumber){return function(_ref){var isValid=_ref.isValid,_ref$card=_ref.card,card=_ref$card===undefined?{}:_ref$card;return{cardType:card&&card.type||'',cardNumber:cardNumber,isValid:isValid}}};// getEmptyState :: () -> ComponentState
-var getEmptyState=exports.getEmptyState=function getEmptyState(){return{cardNumber:'',cardType:'',isValid:false}};// setState :: Component -> A -> A
-var setState=exports.setState=function setState(context){return function(state){context.setState(state);return state}};

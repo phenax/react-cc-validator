@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 import cardValidator from 'card-validator';
 import { formatCardNumber } from '@shaaditech/cc-number-formatter';
 
-import { validateCardNumber, validateCardType, ifElse, compose, identity } from './utils';
-import { setState, getEmptyState, validationToState } from './state-utils';
+import {
+  validateCardNumber, validateCardType,
+  ifElse, compose, identity,
+  setState, getEmptyState, validationToState
+} from './utils';
 
 export default class CardNumberValidator extends React.PureComponent {
 
