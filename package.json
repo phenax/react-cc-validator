@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@shaaditech/cc-number-formatter": "^0.0.1",
-    "card-validator": "^4.3.0",
+    "card-validator": "^5.0.0",
     "prop-types": "^15.6.1"
   }
 }
