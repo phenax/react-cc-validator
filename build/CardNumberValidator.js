@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addCard = undefined;
+exports.cardValidator = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -104,8 +104,4 @@ CardNumberValidator.defaultProps = {
   format: true
 };
 
-// Add a new card type
-// addCard :: Options -> ()
-var addCard = exports.addCard = function addCard(options) {
-  return _cardValidator2.default.creditCardType.addCard(options);
-};
+exports.cardValidator = _cardValidator2.default;

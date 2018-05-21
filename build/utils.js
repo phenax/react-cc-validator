@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.validateCardType = exports.cond = exports.validateCardNumber = exports.propOr = exports.isInArray = exports.identity = exports.log = exports.Maybe = undefined;
+exports.validateCardType = exports.cond = exports.validateCardNumber = exports.propOr = exports.isInArray = exports.identity = exports.Maybe = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -31,9 +31,7 @@ Maybe.Just = function (x) {
     map: function map(f) {
       return Maybe.Just(f(x));
     },
-    fold: function fold(f) {
-      return f(x);
-    },
+    // fold: f => f(x),
     cata: function cata(_ref) {
       var f = _ref.Just;
       return f(x);
@@ -47,9 +45,7 @@ Maybe.Nothing = function (x) {
     map: function map() {
       return Maybe.Nothing(x);
     },
-    fold: function fold() {
-      return Maybe.Nothing(x);
-    },
+    // fold: () => Maybe.Nothing(x),
     cata: function cata(_ref2) {
       var f = _ref2.Nothing;
       return f(x);
@@ -58,12 +54,10 @@ Maybe.Nothing = function (x) {
 };
 
 // log :: String -> A -> A
-var log = exports.log = function log(prefix) {
-  return function (x) {
-    console.log(prefix, x); // eslint-disable-line
-    return x;
-  };
-};
+// export const log = prefix => x => {
+//   console.log(prefix, x); // eslint-disable-line
+//   return x;
+// };
 
 // identity :: A -> A
 var identity = exports.identity = function identity(x) {

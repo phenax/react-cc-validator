@@ -1,5 +1,5 @@
 {
-  "name": "@phenax/react-cc-validator",
+  "name": "@shaaditech/react-cc-validator",
   "version": "0.0.1",
   "description": "Credit/Debit card number validation library with input formatting",
   "main": "build/CardNumberValidator.js",
