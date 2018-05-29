@@ -1,15 +1,12 @@
 
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { mount } from 'enzyme';
 
 import cardValidator from 'card-validator';
 
 import { cardNumberCases, mountValidatorInput, CARD_IS_VALID, CARD_IS_INVALID } from './helpers';
 
 import CardNumberValidator, { addCard, removeCard } from '../src/CardNumberValidator';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 describe('<CardNumberValidator />', () => {
   let node = null;
